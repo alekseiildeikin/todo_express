@@ -82,7 +82,7 @@ app.get('/delete-task/:taskId', (req, res) => {
             const data = JSON.stringify(tasks, null, 2);
             writeFile('tasks.json', data);
             res.redirect('/');
-    });
+     });
 });
 
 app.get('/delete-tasks', (req, res) => {
