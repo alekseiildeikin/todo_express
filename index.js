@@ -66,19 +66,11 @@ app.get('/delete-task/:taskId', (req, res) => {
     let deletedTaskId = parseInt(req.params.taskId);
     readFile('./tasks.json')
         .then(tasks => {
-            let index;
-            if (tasks.length === 0) {
-                index = 0;
-            } else {
-                index = tasks[tasks.length - 1].id + 1;
-            }
-            
-            const newTask = {
-                "id": index,
-                "task": req.body.task
-            };
-
-            tasks.push(newTask);
+            tasks.forEach((task, index) => {
+                if (task.id === deletedTaskId) {
+                    tasks.splice(index, 1);
+                }
+            });
             const data = JSON.stringify(tasks, null, 2);
             writeFile('tasks.json', data);
             res.redirect('/');
@@ -86,19 +78,10 @@ app.get('/delete-task/:taskId', (req, res) => {
 });
 
 app.get('/delete-tasks', (req, res) => {
-    let deletedTaskId = parseInt(req.params.taskId);
-    fs.readFile('./tasks.json')
-    .then(tasks => {
-        tasks.forEach((task, index) => {
-            if (task.id === deletedTaskId) {
-                tasks.splice(index, 1);
-            }
-        });
-    })
-    data = JSON.stringify([], null, 2);
+    const data = JSON.stringify([], null, 2);
     writeFile('tasks.json', data);
     res.redirect('/');
-    });
+});
 
 app.listen(3001, () => {
     console.log('Example app is started at http://localhost:3001');
