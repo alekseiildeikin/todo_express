@@ -13,12 +13,20 @@
         <div class="col s12">
           <div class="card">
             <div class="card-content">
+              <% if(error !== null){ %>
+              <div class="row teal lighten-4">
+                <div class="col s12">
+                  <p class="center-align"><%=
+                    error %></p>
+                </div>
+              </div>
+              <% } %>
               <span class="card-title">ToDo List</span>
               <div class="row">
                 <form class="col s12" method="POST" action="/">
                   <div class="row">
                     <div class="input-field col s12">
-                      <input placeholder="Task" id="task" type="text" name="task" required>
+                      <input placeholder="Task" id="task" type="text" name="task">
                       <label for="task">Insert Task</label>
                     </div>
                   </div>

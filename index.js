@@ -34,13 +34,27 @@ const writeFile = (filename, data) => {
 app.get('/', (req, res) => {
     readFile('./tasks.json')
         .then((tasks) => {
-            res.render('index', { tasks: tasks });
+            res.render('index', { 
+                tasks: tasks, error: null
+             });
         });
 });
 
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/', (req, res) => {
+    
+    let error = null;
+    if (req.body.task.trim().length == 0) {
+        error = 'Please insert correct task data'
+        
+        readFile('./tasks.json')
+            .then((tasks) => {
+                res.render('index', { tasks: tasks, error: error });
+            });
+        return;
+    } else {
+
     readFile('./tasks.json')
         .then((tasks) => {
             let index;
@@ -57,9 +71,10 @@ app.post('/', (req, res) => {
 
             tasks.push(newTask);
             const data = JSON.stringify(tasks, null, 2);
-            writeFile('tasks.json', data);
-            res.redirect('/');
-        });
+            writeFile('tasks.json', data).then(() => {
+                res.redirect('/');
+            });
+        });}
 });
 
 app.get('/delete-task/:taskId', (req, res) => {
