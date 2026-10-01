@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="et">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Express</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col s12">
+          <div class="card">
+            <div class="card-content">
+              <% if(error !== null){ %>
+              <div class="row teal lighten-4">
+                <div class="col s12">
+                  <p class="center-align"><%=
+                    error %></p>
+                </div>
+              </div>
+              <% } %>
+              <span class="card-title">ToDo List</span>
+              <div class="row">
+                <form class="col s12" method="POST" action="/update-task/<%= task.id %>">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input placeholder="Update task" id="task" type="text" name="task">
+                      <label for="task">Insert Task</label>
+                      <input type="hidden" name="id" value="<%= task.id %>">
+                    </div>
+                  </div>
+                  <input class="btn" type="submit" value="Update Task">
+                  <input class="btn red" type="button" value="Cancel" onclick="window.location.href='/'">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </body>
+</html>

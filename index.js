@@ -92,6 +92,36 @@ app.get('/delete-task/:taskId', (req, res) => {
      });
 });
 
+app.get('/update-task/:taskId', (req, res) => {
+    let updatedTaskId = parseInt(req.params.taskId);
+    readFile('./tasks.json')
+        .then(tasks => {
+            const taskToUpdate = tasks.find(task => task.id === updatedTaskId);
+            if (taskToUpdate) {
+                res.render('update', { task: taskToUpdate, error: null });
+            } else {
+                res.redirect('/');
+            }
+        });
+});
+
+app.post('/update-task/:taskId', (req, res) => {
+    let updatedTaskId = parseInt(req.params.taskId);
+    readFile('./tasks.json')
+        .then(tasks => {
+            const taskIndex = tasks.findIndex(task => task.id === updatedTaskId);
+            if (taskIndex !== -1) {
+                tasks[taskIndex].task = req.body.task;
+                const data = JSON.stringify(tasks, null, 2);
+                writeFile('tasks.json', data).then(() => {
+                    res.redirect('/');
+                });
+            } else {
+                res.redirect('/');
+            }
+        });
+});
+
 app.get('/delete-tasks', (req, res) => {
     const data = JSON.stringify([], null, 2);
     writeFile('tasks.json', data);
